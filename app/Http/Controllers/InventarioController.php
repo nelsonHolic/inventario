@@ -40,7 +40,10 @@ class InventarioController extends Controller {
         );
         if($inventario_object->stock){
             $inventario_object->stock = $inventario_object->stock+1;
+        }else{
+            $inventario_object->stock = 1;
         }
+        $inventario_object->save();
         return view('actualizar_inventario');
     }
 
@@ -94,6 +97,33 @@ class InventarioController extends Controller {
      * @return Response
      */
     public function destroy($id)
+    {
+        //
+        $inventario_id = Input::get('idinventario');
+        $producto_id = Input::get('producto_idproducto');
+        $inventario_object = Inventario::firstOrCreate(
+            array(
+                'idinventario'=>$inventario_id,
+                'producto_idproducto'=>$producto_id
+            )
+        );
+        if($inventario_object->stock){
+            $inventario_object->stock = $inventario_object->stock-1;
+        }else{
+            $inventario_object->stock = 0;
+        }
+        $inventario_object->save();
+        return view('actualizar_inventario');
+
+    }
+
+    /**
+     * Remove the specified resource from storage.
+     *
+     * @param  int  $id
+     * @return Response
+     */
+    public function devolcion($id)
     {
         //
     }
