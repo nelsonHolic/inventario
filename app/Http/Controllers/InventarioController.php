@@ -5,6 +5,8 @@ use App\Http\Controllers\Controller;
 
 use Illuminate\Http\Request;
 use App\Inventario;
+use Illuminate\Http\Response;
+use Illuminate\Support\Facades\Input;
 
 class InventarioController extends Controller {
 
@@ -16,15 +18,7 @@ class InventarioController extends Controller {
     public function index()
     {
         //
-        error_log('sjkejke');
-        $inventario_object = Inventario::create(
-            array('idinventario'=>1,
-                'empleado_idempleado'=>1,
-                'empleado_facturacion_idfacturacion'=>1,
-                'producto_idproducto'=>1,
-                'nro_compra'=>1,
-                'fecha'=>1,
-                'descripcion'=>1));
+        $inventario_object = Inventario::all();
         return view('inventario');
     }
 
@@ -36,6 +30,18 @@ class InventarioController extends Controller {
     public function create()
     {
         //
+        $inventario_id = Input::get('idinventario');
+        $producto_id = Input::get('producto_idproducto');
+        $inventario_object = Inventario::firstOrCreate(
+            array(
+                'idinventario'=>$inventario_id,
+                'producto_idproducto'=>$producto_id
+                )
+        );
+        if($inventario_object->stock){
+            $inventario_object->stock = $inventario_object->stock+1;
+        }
+        return view('actualizar_inventario');
     }
 
     /**

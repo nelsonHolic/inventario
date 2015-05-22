@@ -16,7 +16,9 @@ Route::get('/', 'WelcomeController@index');
 
 Route::get('home', 'HomeController@index');
 
-Route::get('inventario','InventarioController@index');
+Route::get('inventario/get/','InventarioController@index');
+Route::get('inventario/add/','InventarioController@create');
+Route::get('inventario/remove/','InventarioController@destroy');
 
 Route::controllers([
 	'auth' => 'Auth\AuthController',
